@@ -1,0 +1,22 @@
+@(objetivos: List[Objetivo])
+
+@main("Metas Na Web") {
+
+    <h3>objetivos Cadastrados:</h3>
+    @if(objetivos.isEmpty){
+    	Nenhum objetivo cadastrado!
+    }else{
+    	<ul>
+    		@for(objetivo <- objetivos){
+    			<li>@objetivo.getObjetivo()</li>
+    		}
+    	</ul>
+    }	
+    
+    <h4>Adicionar Objetivo</h4>
+    <form method="post" action="/objetivo"/>
+        <input name="objetivo" type="text" placeholder="Objetivo" required/><br>
+        <input type="submit" value="Adicionar"/>
+    </form>
+
+}
