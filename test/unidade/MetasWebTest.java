@@ -15,6 +15,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
 
 import play.GlobalSettings;
 import play.db.jpa.JPA;
@@ -26,26 +27,28 @@ import scala.Option;
 public class MetasWebTest {
 	
 	private GenericDAO dao = new GenericDAO();
+	private List<Meta> metas;
 
 	@Test
 	public void deveIniciarSemMetasNoBD(){
-		List<Meta> metas = dao.findAllByClassName(Meta.class.getName());
+		metas = pegaMetasNoBD();
 		assertThat(metas).isEmpty();
 	}
 	
 	
 	@Test
 	public void deveCriarMetasNoBD() {
-		Meta meta = new Meta("fazer o lab2 de SI1", 0);
-		dao.persist(meta);
-		
-		List<Meta> metas = dao.findAllByClassName(Meta.class.getName());
+		criaMetaNoBD();
+		metas = pegaMetasNoBD();
 		assertThat(metas.size()).isEqualTo(1);
 		assertThat(metas.get(0).getDescricao()).isEqualTo("fazer o lab2 de SI1");
 		assertThat(metas.get(0).getPrioridade()).isEqualTo(PrioridadeEnum.Normal);
 	}
 	
-	
+	@Test
+	public void deveAdicionarData(){
+				
+	}
 	
 	 public EntityManager em;
 
@@ -66,6 +69,14 @@ public class MetasWebTest {
 	        em.close();
 	    }
 	
+	private void criaMetaNoBD(){
+		 Meta meta = new Meta("fazer o lab2 de SI1", 0);
+			dao.persist(meta);
+	}
+	
+	private List<Meta> pegaMetasNoBD(){
+		return dao.findAllByClassName(Meta.class.getName());
+	}
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
