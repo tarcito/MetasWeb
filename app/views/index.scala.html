@@ -3,7 +3,7 @@
 @main("Metas Na Web") {
     <h3 class="text-center">Metas Cadastradas:</h3>
     @if(metas.isEmpty()){
-    	Nenhuma meta cadastrada!
+    	<p>Nenhuma meta cadastrada!</p>
     }else{
 		<div class="content">
     	<ul class="menu">
@@ -17,7 +17,8 @@
     <h4>Adicionar Meta:</h4>
      <div class="form-group">
     <form class="form-signin" method="post" action="/meta"/>
-        <input name="descricao" class="form-control" type="text" placeholder="Descricao" required/><br>
+       <label>Descricao: <input name="descricao" class="form-control" type="text" placeholder="Descricao" required/></label><br>
+        	<label>Definir Prioridade: </label>
         	<select name="prioridade">
 			<option value="-1">Baixo</option>
 			<option value="0" selected>Normal</option>

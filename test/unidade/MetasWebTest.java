@@ -47,10 +47,30 @@ public class MetasWebTest {
 	
 	@Test
 	public void deveAdicionarData(){
-				
+		criaMetaNoBD();
+		metas = pegaMetasNoBD();
+		metas.get(0).setPrazo(28, 11, 2014);
+		dao.flush();
+		metas = pegaMetasNoBD();
+		assertThat(metas.get(0).getPrazo()).isEqualTo("28/11/2014");
 	}
 	
-	 public EntityManager em;
+	
+	
+    //Metodos auxiliares
+	private void criaMetaNoBD(){
+		 Meta meta = new Meta("fazer o lab2 de SI1", 0);
+			dao.persist(meta);
+	}
+	
+	private List<Meta> pegaMetasNoBD(){
+		return dao.findAllByClassName(Meta.class.getName());
+	}
+	
+	
+	//abaixo os metodos para iniciar e encerrar o BD 
+	
+	public EntityManager em;
 
 	    @Before
 	    public void setUp() {
@@ -69,21 +89,7 @@ public class MetasWebTest {
 	        em.close();
 	    }
 	
-	private void criaMetaNoBD(){
-		 Meta meta = new Meta("fazer o lab2 de SI1", 0);
-			dao.persist(meta);
-	}
+	    
 	
-	private List<Meta> pegaMetasNoBD(){
-		return dao.findAllByClassName(Meta.class.getName());
-	}
-	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
 	
 }

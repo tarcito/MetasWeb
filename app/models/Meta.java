@@ -42,8 +42,8 @@ public class Meta {
 		prazo.setFirstDayOfWeek(Calendar.SUNDAY);
 	}
 
-	public Calendar getPrazo() {
-		return prazo;
+	public String getPrazo() {
+		return  prazo.get(Calendar.DAY_OF_MONTH) + "/" + (prazo.get(Calendar.MONTH) + 1) + "/" + prazo.get(Calendar.YEAR);
 	}
 	
 	public String getDescricao(){
