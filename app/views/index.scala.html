@@ -1,22 +1,30 @@
-@(objetivos: List[Objetivo])
+@(metas: List[Meta])
 
 @main("Metas Na Web") {
-
-    <h3>objetivos Cadastrados:</h3>
-    @if(objetivos.isEmpty){
-    	Nenhum objetivo cadastrado!
+    <h3 class="text-center">Metas Cadastradas:</h3>
+    @if(metas.isEmpty()){
+    	Nenhuma meta cadastrada!
     }else{
-    	<ul>
-    		@for(objetivo <- objetivos){
-    			<li>@objetivo.getObjetivo()</li>
+		<div class="content">
+    	<ul class="menu">
+    		@for(meta <- metas){
+    			<li class="header">@meta.getDescricao() - @meta.getPrioridade().toString()</li>
     		}
     	</ul>
-    }	
+    	</div>
+    }
     
-    <h4>Adicionar Objetivo</h4>
-    <form method="post" action="/objetivo"/>
-        <input name="objetivo" type="text" placeholder="Objetivo" required/><br>
-        <input type="submit" value="Adicionar"/>
+    <h4>Adicionar Meta:</h4>
+     <div class="form-group">
+    <form class="form-signin" method="post" action="/meta"/>
+        <input name="descricao" class="form-control" type="text" placeholder="Descricao" required/><br>
+        	<select name="prioridade">
+			<option value="-1">Baixo</option>
+			<option value="0" selected>Normal</option>
+			<option value="1">Alto</option>
+		</select><br><br>
+        <input type="submit" class="btn btn-primary" value="Adicionar"/>
     </form>
+	</div>
 
 }

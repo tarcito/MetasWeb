@@ -2,7 +2,7 @@ package controllers;
 
 import java.util.List;
 
-import models.Objetivo;
+import models.Meta;
 import models.dao.GenericDAO;
 import play.*;
 import play.data.DynamicForm;
@@ -19,16 +19,17 @@ public class Application extends Controller {
 	
 	@Transactional  //nescessario para metodos que usem o BD
     public static Result index() {
-    	List<Objetivo> objetivos = dao.findAllByClassName(Objetivo.class.getName());
-        return ok(index.render(objetivos));
+    	List<Meta> metas = dao.findAllByClassName(Meta.class.getName());
+        return ok(index.render(metas));
     }
 
 	@Transactional
-    public static Result criaObjetivo(){
+    public static Result criaMeta(){
     	DynamicForm form = Form.form().bindFromRequest();
-    	String obj = form.get("objetivo");
-    	Objetivo objetivo = new Objetivo(obj);
-    	 dao.persist(objetivo);
+    	String descricao = form.get("descricao");
+    	int prioridade = Integer.parseInt(form.get("prioridade")); 
+    	Meta meta = new Meta(descricao,prioridade);
+    	 dao.persist(meta);
     	return index();
     }
     
