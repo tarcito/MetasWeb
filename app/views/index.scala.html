@@ -1,4 +1,4 @@
-@(metas: List[Meta])
+@(metas: List[Meta])(dataAtual : String)(dataMaxima : String)
 
 @main("Metas Na Web") {
     <h3 class="text-center">Metas Cadastradas:</h3>
@@ -8,7 +8,7 @@
 		<div class="content">
     	<ul class="menu">
     		@for(meta <- metas){
-    			<li class="header">@meta.getDescricao() - @meta.getPrioridade().toString()</li>
+    			<li class="header">@meta.getDescricao() - @meta.getPrioridade().toString() - @meta.getStringPrazo()</li>
     		}
     	</ul>
     	</div>
@@ -18,12 +18,14 @@
      <div class="form-group">
     <form class="form-signin" method="post" action="/meta"/>
        <label>Descricao: <input name="descricao" class="form-control" type="text" placeholder="Descricao" required/></label><br>
-        	<label>Definir Prioridade: </label>
+       <label>Definir Prioridade: </label>
         	<select name="prioridade">
-			<option value="-1">Baixo</option>
-			<option value="0" selected>Normal</option>
-			<option value="1">Alto</option>
-		</select><br><br>
+				<option value="-1">Baixo</option>
+				<option value="0" selected>Normal</option>
+				<option value="1">Alto</option><br>
+			</select><br>
+		<label>Prazo:<input type="date" name="prazo" min="@dataAtual" max="@dataMaxima" required></label>
+		<br>
         <input type="submit" class="btn btn-primary" value="Adicionar"/>
     </form>
 	</div>

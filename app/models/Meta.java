@@ -8,61 +8,115 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 @Entity
-public class Meta {
-	
-	//enum das prioridades
+public class Meta implements Comparable<Meta> {
+
+	// enum das prioridades
 	public enum PrioridadeEnum {
-		BAIXO(-1),Normal(0),ALTO(1);
-			
+		Alto(1), Normal(0),Baixo(-1) ;
+
 		private final int prioridade;
-		PrioridadeEnum(int prioridade){
+
+		PrioridadeEnum(int prioridade) {
 			this.prioridade = prioridade;
 		}
 	}
-	
+
 	@Id
-    @GeneratedValue
-    private Long id;
-	
+	@GeneratedValue
+	private Long id;
+
 	private String descricao;
 	private PrioridadeEnum prioridade;
+	private boolean cumprida;
 	private Calendar prazo;
-	
+
 	public Meta(String descricao, int prioridade) {
 		this.descricao = descricao;
 		this.prioridade = getPrioridade(prioridade);
+		cumprida = false;
 	}
-	
-	public Meta(){
-		
+
+	public Meta() {
+
 	}
-	
-	public void setPrazo(int dia, int mes, int ano){
-		prazo = new GregorianCalendar(ano, mes-1, dia);
+
+	public void setPrazo(int dia, int mes, int ano) {
+		prazo = new GregorianCalendar(ano, mes - 1, dia);
 		prazo.setFirstDayOfWeek(Calendar.SUNDAY);
 	}
 
-	public String getPrazo() {
-		return  prazo.get(Calendar.DAY_OF_MONTH) + "/" + (prazo.get(Calendar.MONTH) + 1) + "/" + prazo.get(Calendar.YEAR);
+	public String getStringPrazo() {
+		return getPrazo().get(Calendar.DAY_OF_MONTH) + "/"
+				+ (getPrazo().get(Calendar.MONTH) + 1) + "/"
+				+ getPrazo().get(Calendar.YEAR);
 	}
-	
-	public String getDescricao(){
+
+	public String getDescricao() {
 		return descricao;
 	}
-	
-	public PrioridadeEnum getPrioridade(){
+
+	public PrioridadeEnum getPrioridade() {
 		return prioridade;
 	}
-	
-	private PrioridadeEnum getPrioridade(int prioridade){
+
+	public boolean isCumprida() {
+		return cumprida;
+	}
+
+	public void cumpriu() {
+		this.cumprida = true;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public Calendar getPrazo() {
+		return prazo;
+	}
+
+	public int compareTo(Meta outraMeta) {
+		int result = comparaSemanaPrazo(outraMeta);
+		if (result == 0) {
+			result = prioridade.compareTo(outraMeta.getPrioridade());
+			if (result == 0) {
+				result = getPrazo().compareTo(outraMeta.getPrazo());
+			}
+		}
+		return result;
+	}
+
+	private int comparaSemanaPrazo(Meta outraMeta) {
+		int result = 0;
+		if (getPrazo().get(Calendar.YEAR) == outraMeta.getPrazo().get(
+				Calendar.YEAR)) {
+			if (getPrazo().get(Calendar.WEEK_OF_YEAR) == outraMeta.getPrazo()
+					.get(Calendar.WEEK_OF_YEAR)) {
+				result = 0;
+			} else if (getPrazo().get(Calendar.WEEK_OF_YEAR) > outraMeta
+					.getPrazo().get(Calendar.WEEK_OF_YEAR)) {
+				result = 1;
+			} else {
+				result = -1;
+			}
+		} else if (getPrazo().get(Calendar.YEAR) > outraMeta.getPrazo().get(
+				Calendar.YEAR)) {
+			result = 1;
+		} else {
+			result = -1;
+		}
+
+		return result;
+	}
+
+	private PrioridadeEnum getPrioridade(int prioridade) {
 		switch (prioridade) {
 		case 1:
-			return PrioridadeEnum.ALTO;
-		case -1: 
-			return PrioridadeEnum.BAIXO;	
-		} 
+			return PrioridadeEnum.Alto;
+		case -1:
+			return PrioridadeEnum.Baixo;
+		}
 		return PrioridadeEnum.Normal;
-		
 	}
 
 }
