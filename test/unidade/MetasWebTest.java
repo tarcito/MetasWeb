@@ -2,6 +2,8 @@ package unidade;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -49,10 +51,11 @@ public class MetasWebTest {
 	public void deveAdicionarData(){
 		criaMetaNoBD();
 		metas = pegaMetasNoBD();
-		metas.get(0).setPrazo(28, 11, 2014);
+		Calendar prazo = new GregorianCalendar(2014, 13, 28);
+		metas.get(0).setPrazo(prazo);
 		dao.flush();
 		metas = pegaMetasNoBD();
-		assertThat(metas.get(0).getPrazo()).isEqualTo("28/11/2014");
+		assertThat(metas.get(0).getPrazo()).isEqualTo("28/12/2014");
 	}
 	
 	
