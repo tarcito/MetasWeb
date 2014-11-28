@@ -1,14 +1,14 @@
 @(metas: List[Meta])(dataAtual : String)(dataMaxima : String)
 
 @main("Metas Na Web") {
-    <h3 class="text-center">Metas Cadastradas:</h3>
+    <h3>Metas Cadastradas:</h3>
     @if(metas.isEmpty()){
     	<p>Nenhuma meta cadastrada!</p>
     }else{
 		<div class="content">
     	<ul class="menu">
     		@for(meta <- metas){
-    			<li class="header">@meta.getDescricao() - @meta.getPrioridade().toString() - @meta.getStringPrazo()</li>
+    			<li class="header">@meta.getDescricao() - @meta.getPrioridade().toString() - @meta.getStringPrazo() - Semana: @meta.getSemana()</li>
     		}
     	</ul>
     	</div>
@@ -24,10 +24,25 @@
 				<option value="0" selected>Normal</option>
 				<option value="1">Alto</option><br>
 			</select><br>
-		<label>Prazo:<input type="date" name="prazo" min="@dataAtual" max="@dataMaxima" required></label>
+		<label>Prazo:<input type="date" name="prazo" min="@dataAtual" max="@dataMaxima" placeholder="aaaa-mm-dd" required></label>
 		<br>
-        <input type="submit" class="btn btn-primary" value="Adicionar"/>
+        <input type="submit" class="btn btn-primary" value="Adicionar"/> <br>
+       
     </form>
+	</div>
+	<div>
+		@if(!metas.isEmpty()){
+		<h4>Excluir Meta:</h4>
+		<form class="form-group" method="post" action="/excluir">
+			<select name="excluida">
+			<label>Selecione:</label>
+				@for(meta <- metas){
+					<option value="@meta.getId()">@meta.getDescricao()</option>
+				}
+			</select>
+			<input type="submit" class="btn" value="Excluir"/>
+		</form> 
+		}
 	</div>
 
 }

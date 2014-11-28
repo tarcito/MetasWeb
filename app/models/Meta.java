@@ -29,6 +29,8 @@ public class Meta implements Comparable<Meta> {
 	private PrioridadeEnum prioridade;
 	private boolean cumprida;
 	private Calendar prazo;
+	private int semana = 0;
+
 
 	public Meta(String descricao, int prioridade) {
 		this.descricao = descricao;
@@ -40,9 +42,8 @@ public class Meta implements Comparable<Meta> {
 
 	}
 
-	public void setPrazo(int dia, int mes, int ano) {
-		prazo = new GregorianCalendar(ano, mes - 1, dia);
-		prazo.setFirstDayOfWeek(Calendar.SUNDAY);
+	public void setPrazo(Calendar prazo) {
+		this.prazo = prazo;
 	}
 
 	public String getStringPrazo() {
@@ -74,6 +75,16 @@ public class Meta implements Comparable<Meta> {
 	public Calendar getPrazo() {
 		return prazo;
 	}
+	
+	public void setSemana(int semana) {
+		this.semana = semana;
+		
+	}
+
+	public int getSemana() {
+		return semana;
+	}
+	
 
 	public int compareTo(Meta outraMeta) {
 		int result = comparaSemanaPrazo(outraMeta);
@@ -88,19 +99,9 @@ public class Meta implements Comparable<Meta> {
 
 	private int comparaSemanaPrazo(Meta outraMeta) {
 		int result = 0;
-		if (getPrazo().get(Calendar.YEAR) == outraMeta.getPrazo().get(
-				Calendar.YEAR)) {
-			if (getPrazo().get(Calendar.WEEK_OF_YEAR) == outraMeta.getPrazo()
-					.get(Calendar.WEEK_OF_YEAR)) {
-				result = 0;
-			} else if (getPrazo().get(Calendar.WEEK_OF_YEAR) > outraMeta
-					.getPrazo().get(Calendar.WEEK_OF_YEAR)) {
-				result = 1;
-			} else {
-				result = -1;
-			}
-		} else if (getPrazo().get(Calendar.YEAR) > outraMeta.getPrazo().get(
-				Calendar.YEAR)) {
+		if (getSemana() == outraMeta.getSemana()) {
+			result = 0;
+		} else if (getSemana() > outraMeta.getSemana()) {
 			result = 1;
 		} else {
 			result = -1;
@@ -118,5 +119,5 @@ public class Meta implements Comparable<Meta> {
 		}
 		return PrioridadeEnum.Normal;
 	}
-
+	
 }
