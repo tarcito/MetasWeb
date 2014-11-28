@@ -8,11 +8,16 @@
     				@if(metas.isEmpty()){
     					<p>Nenhuma meta cadastrada!</p>
     				}else{
-    					<ul class="menu">
+    					<table class="table">
     					@for(meta <- metas){
-    						<li class="header">@meta.getDescricao() - @meta.getPrioridade().toString() - @meta.getStringPrazo() - Semana: @meta.getSemana()</li>
+    						<tr>
+    							<td>@meta.getDescricao()</td>
+    							<td>@meta.getPrioridade().toString()</td>
+    							<td>@meta.getStringPrazo()</td>
+    							<td>Semana: @meta.getSemana()</td>
+    						</tr>
     					}
-    					</ul>
+    					</table>
    					 }
     		</div>
     		
