@@ -36,8 +36,13 @@ public class Application extends Controller {
 	
 	@Transactional
 	public static Result concluiMeta(){
+		Long id = null;
 		DynamicForm form = Form.form().bindFromRequest();
-		long id = Long.parseLong(form.get("concluida"));
+		try{
+			id = Long.parseLong(form.get("concluida"));
+		}catch(Exception e ){
+			return index();
+		}
 		Meta meta = dao.findByEntityId(Meta.class, id);
 		meta.cumpriu();
 		dao.flush();

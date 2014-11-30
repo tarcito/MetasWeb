@@ -1,8 +1,9 @@
 @(metas: List[Meta])(dataAtual : String)(dataMaxima : String)
 
 @main("Metas Na Web") {
+
 	<div class="container-fluid">
-		<div class="row">
+		<div class="row-fluid">
 			<h3>Metas Na Web</h3>
 			<div class="col-md-4">
     			<h4>Metas Cadastradas:</h4>
@@ -38,7 +39,7 @@
     		
    			<div class="col-md-4">
    				<h4>Adicionar Meta:</h4>
-   					<form class="form-signin" method="post" action="/meta">
+   					<form id="form-row" class="form-signin" method="post" action="/meta">
        					<label>Descricao: <input name="descricao" class="form-control" type="text" placeholder="Descricao" required/></label><br>
        					<label>Definir Prioridade: </label>
         				<select name="prioridade">
@@ -54,10 +55,10 @@
 	
 			<div class="col-md-4">
 				@if(!metas.isEmpty()){
-					<h4>Excluir Meta:</h4>
-					<form class="form-group" method="post" action="/excluir">
+					<h4>Alterar:</h4>
+					<form  class="form-group" method="post" action="/excluir">
+					<legend>Excluir Meta:</legend>
 						<select name="excluida">
-						<label>Selecione p/ Excluir:</label>
 							@for(meta <- metas){
 								<option value="@meta.getId()">@meta.getDescricao()</option>
 							}
@@ -66,8 +67,8 @@
 					</form>
 					<br><br>
 					<form class="form-group" method="post" action="/concluir">
+						<legend>Marcar Concluida:</legend>
 						<select name="concluida">
-							<label>Selecione p/ Concluir:</label>
 							@for(meta <- metas){
 								@if(!meta.isCumprida()){
 									<option value="@meta.getId()">@meta.getDescricao()</option>
