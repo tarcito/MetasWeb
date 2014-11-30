@@ -23,13 +23,24 @@ public class Application extends Controller {
 	// nescessario para metodos que usem o BD
 	public static Result index() {
 		iniciaDate();
-		return pegaMetasNoBD();
+		List<Meta> metas =  pegaMetasNoBD();
+		return ok(index.render(metas, getDate(), getDateMax()));
 	}
 
 	@Transactional
 	public static Result criaMeta() {
 		DynamicForm form = Form.form().bindFromRequest();
 		criaMetaNoBD(form);
+		return index();
+	}
+	
+	@Transactional
+	public static Result concluiMeta(){
+		DynamicForm form = Form.form().bindFromRequest();
+		long id = Long.parseLong(form.get("concluida"));
+		Meta meta = dao.findByEntityId(Meta.class, id);
+		meta.cumpriu();
+		dao.flush();
 		return index();
 	}
 	
@@ -43,10 +54,10 @@ public class Application extends Controller {
 	}
 
 	@Transactional
-	private static Result pegaMetasNoBD() {
+	private static List<Meta> pegaMetasNoBD() {
 		List<Meta> metas = dao.findAllByClassName(Meta.class.getName());
 		Collections.sort(metas);
-		return ok(index.render(metas, getDate(), getDateMax()));
+		return metas;
 
 	}
 

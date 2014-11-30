@@ -3,20 +3,35 @@
 @main("Metas Na Web") {
 	<div class="container-fluid">
 		<div class="row">
+			<h3>Metas Na Web</h3>
 			<div class="col-md-4">
-    			<h3>Metas Cadastradas:</h3>
+    			<h4>Metas Cadastradas:</h4>
     				@if(metas.isEmpty()){
     					<p>Nenhuma meta cadastrada!</p>
     				}else{
     					<table class="table">
+    						<thead>
+    							<tr>
+         							<th>Descricao</th>
+          							<th>Prioridade</th>
+          							<th>Prazo</th>
+          							<th>Semana</th>
+        						</tr>
+      						</thead>
+      						<tbody>
     					@for(meta <- metas){
-    						<tr>
-    							<td>@meta.getDescricao()</td>
-    							<td>@meta.getPrioridade().toString()</td>
-    							<td>@meta.getStringPrazo()</td>
-    							<td>Semana: @meta.getSemana()</td>
-    						</tr>
+    						@if(meta.isCumprida()){
+    							<tr class="success">
+    						}else{
+								<tr>
+							}
+    								<td>@meta.getDescricao()</td>
+    								<td>@meta.getPrioridade().toString()</td>
+    								<td>@meta.getStringPrazo()</td>
+    								<td>Semana: @meta.getSemana()</td>
+    							</tr>
     					}
+							</tbody>
     					</table>
    					 }
     		</div>
@@ -42,12 +57,24 @@
 					<h4>Excluir Meta:</h4>
 					<form class="form-group" method="post" action="/excluir">
 						<select name="excluida">
-						<label>Selecione:</label>
+						<label>Selecione p/ Excluir:</label>
 							@for(meta <- metas){
 								<option value="@meta.getId()">@meta.getDescricao()</option>
 							}
 						</select>
 						<input type="submit" class="btn btn-danger" value="Excluir"/>
+					</form>
+					<br><br>
+					<form class="form-group" method="post" action="/concluir">
+						<select name="concluida">
+							<label>Selecione p/ Concluir:</label>
+							@for(meta <- metas){
+								@if(!meta.isCumprida()){
+									<option value="@meta.getId()">@meta.getDescricao()</option>
+								}
+							}
+						</select>
+						<input type="submit" class="btn btn-primary" value="concluida"/>
 					</form>
 				}
 			</div>
