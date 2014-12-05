@@ -51,11 +51,13 @@ public class MetasWebTest {
 	public void deveAdicionarData(){
 		criaMetaNoBD();
 		metas = pegaMetasNoBD();
-		Calendar prazo = new GregorianCalendar(2014, 13, 28);
+		Calendar prazo = new GregorianCalendar(2014, 11, 28);
+		prazo.setFirstDayOfWeek(Calendar.SUNDAY);
 		metas.get(0).setPrazo(prazo);
+		metas.get(0).setSemana(0);
 		dao.flush();
 		metas = pegaMetasNoBD();
-		assertThat(metas.get(0).getPrazo()).isEqualTo("28/12/2014");
+		assertThat(metas.get(0).getStringPrazo()).isEqualTo("28/12/2014");
 	}
 	
 	
